@@ -136,7 +136,7 @@
       background: rgba(0,0,0,0.15);
       backdrop-filter: blur(6px);
       padding: 0.8rem 0;
-      z-index: 10;          /* всегда поверх всего */
+      z-index: 10;
       text-shadow: 0 1px 3px rgba(0,0,0,0.6);
     }
 
@@ -147,12 +147,22 @@
       align-items: center;
       justify-content: center;
       width: 100%;
-      padding-bottom: 80px;   /* место под footer */
+      padding-bottom: 80px;
       box-sizing: border-box;
+    }
+
+    canvas#confetti-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 2;
     }
   </style>
 </head>
 <body>
+
+  <canvas id="confetti-canvas"></canvas>
 
   <div class="content-wrapper">
     <h1>Моя дашкк, будешь моей Валентинкой? ❤️</h1>
@@ -175,6 +185,79 @@
   <footer>12 февраля 2026 • с любовью от твоего [твоё имя] ♡</footer>
 
   <script>
+    // Простая конфетти-анимация без внешних библиотек
+    const canvas = document.getElementById('confetti-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+
+    let particles = [];
+
+    class Particle {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height - canvas.height;
+        this.size = Math.random() * 8 + 4;
+        this.speedY = Math.random() * 3 + 2;
+        this.speedX = Math.random() * 4 - 2;
+        this.rotation = Math.random() * 360;
+        this.rotSpeed = Math.random() * 10 - 5;
+        this.color = ['#ff5e92', '#ffffff', '#ffebee', '#ff9ec1', '#ffb6c1'][Math.floor(Math.random()*5)];
+        this.opacity = 1;
+      }
+      update() {
+        this.y += this.speedY;
+        this.x += this.speedX;
+        this.rotation += this.rotSpeed;
+        this.opacity -= 0.005;
+        if (this.opacity <= 0 || this.y > canvas.height) this.reset();
+      }
+      draw() {
+        ctx.save();
+        ctx.globalAlpha = this.opacity;
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rotation * Math.PI / 180);
+        ctx.fillStyle = this.color;
+        ctx.fillRect(-this.size/2, -this.size/2, this.size, this.size);
+        ctx.restore();
+      }
+    }
+
+    for (let i = 0; i < 150; i++) {
+      particles.push(new Particle());
+    }
+
+    function animateConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animateConfetti);
+    }
+    animateConfetti();
+
+    // Запуск взрыва при "Да"
+    function burstConfetti() {
+      for (let i = 0; i < 100; i++) {
+        const p = new Particle();
+        p.y = canvas.height / 2 - 100;  // старт из центра
+        p.x = canvas.width / 2;
+        p.speedY = Math.random() * -8 - 5;  // вверх
+        p.speedX = Math.random() * 10 - 5;
+        p.opacity = 1;
+        particles.push(p);
+      }
+    }
+
     const yesBtn = document.getElementById('yes');
     const noBtn  = document.getElementById('no');
     const message = document.getElementById('message');
@@ -185,6 +268,7 @@
       message.style.opacity = "1";
       message.style.transform = "scale(1)";
       document.body.style.animation = "pulse-bg 1.5s infinite alternate";
+      burstConfetti();  // ВЗРЫВ КОНФЕТТИ!
     });
 
     let noClickCount = 0;
@@ -192,7 +276,6 @@
       noClickCount++;
       please.textContent = "ну пожалуйста :(( " + "🥺".repeat(Math.min(noClickCount, 8));
       please.style.opacity = "1";
-
       noBtn.style.transform = `translate(${Math.random()*100-50}px, ${Math.random()*80-40}px)`;
       setTimeout(() => { noBtn.style.transform = 'translate(0,0)'; }, 500);
     });
@@ -211,7 +294,7 @@
 
     setInterval(createHeart, 400);
 
-    // Доп. анимация фона
+    // Пульсация фона
     const style = document.createElement('style');
     style.innerHTML = `
       @keyframes pulse-bg {
