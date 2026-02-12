@@ -134,13 +134,8 @@
   <h1> дашка, будешь моей валентинкой? </h1>
 
   <div class="photos">
-    <!-- Сюда вставь свои фотографии -->
-    <!-- Примеры как вставлять: -->
-    <!-- <img src="https://i.imgur.com/ваш-линк-1.jpg" alt="мы"> -->
-    <!-- <img src="https://i.imgur.com/ваш-линк-2.jpg" alt="мы"> -->
-    <!-- или локальные файлы: <img src="photo1.jpg"> если лежат рядом с html -->
 
-    <img src="https://media1.tenor.com/m/3Sykma8la9gAAAAC/reze-tongue-out-reze-chainsaw-man-moving-her-head.gif">
+    <img src="https://i.ibb.co/qF3wNRT3/photo-2026-02-07-20-13-40-2.jpg">
   </div>
 
   <div class="buttons">
@@ -151,7 +146,7 @@
   <div id="message"></div>
   <div id="please"></div>
 
-  <footer>с любовью от давида ♡</footer>
+  <footer>от давида ♡</footer>
 
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
@@ -161,7 +156,6 @@
     const message = document.getElementById('message');
     const please  = document.getElementById('please');
 
-    // Конфетти при нажатии "Да"
     yesBtn.addEventListener('click', () => {
       message.textContent = "я тя люблю!💕";
       message.style.opacity = "1";
@@ -176,16 +170,14 @@
       });
     });
 
-    // "Нет" → двигаем кнопку + просим
     let noClickCount = 0;
     noBtn.addEventListener('click', () => {
       noClickCount++;
       please.textContent = "ну пожалуйста :(( " + "🥺".repeat(Math.min(noClickCount, 6));
       please.style.opacity = "1";
 
-      // лёгкое движение кнопки
-    const dx = Math.random() * 240 - 120;
-    const dy = Math.random() * 160 - 80;
+    const dx = Math.random() * 500 - 300;
+    const dy = Math.random() * 400-200 - 80;
     const rotate = Math.random() * 40 - 20;           // поворот ±20°
     noBtn.style.transform = `translate(${dx}px, ${dy}px) rotate(${rotate}deg) scale(1.1)`;
     });
@@ -208,3 +200,4 @@
 
 </body>
 </html>
+
