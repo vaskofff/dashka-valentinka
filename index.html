@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Моя Дашкк 💕</title>
+  <title>дашк это те))</title>
   <style>
     body {
       margin: 0;
-      min-height: 100vh;
+      height: 100vh;
       font-family: 'Segoe UI', system-ui, sans-serif;
       background: linear-gradient(135deg, #ff9ec1 0%, #ff5e92 100%);
       color: white;
@@ -17,7 +17,6 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      position: relative;
     }
 
     h1 {
@@ -89,15 +88,12 @@
     }
 
     #message {
-      font-size: 3rem;
-      margin: 1.5rem 1rem;
+      font-size: 3.4rem;
+      margin: 1.5rem 0;
       font-weight: bold;
       opacity: 0;
-      transform: scale(0.6);
+      transform: scale(0.5);
       transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      line-height: 1.3;
-      max-width: 90%;
-      z-index: 5;
     }
 
     #please {
@@ -113,7 +109,6 @@
       pointer-events: none;
       animation: float 6s linear infinite;
       opacity: 0.9;
-      z-index: 1;
     }
 
     @keyframes float {
@@ -127,182 +122,88 @@
     }
 
     footer {
-      position: fixed;
-      bottom: 1rem;
-      left: 0;
-      right: 0;
+      position: absolute;
+      bottom: 1.5rem;
       font-size: 1.1rem;
-      opacity: 0.9;
-      background: rgba(0,0,0,0.15);
-      backdrop-filter: blur(6px);
-      padding: 0.8rem 0;
-      z-index: 10;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.6);
-    }
-
-    .content-wrapper {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      padding-bottom: 80px;
-      box-sizing: border-box;
-    }
-
-    canvas#confetti-canvas {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      pointer-events: none;
-      z-index: 2;
+      opacity: 0.85;
     }
   </style>
 </head>
 <body>
 
-  <canvas id="confetti-canvas"></canvas>
+  <h1> дашка, будешь моей валентинкой? </h1>
 
-  <div class="content-wrapper">
-    <h1>Моя дашкк, будешь моей Валентинкой? ❤️</h1>
+  <div class="photos">
+    <!-- Сюда вставь свои фотографии -->
+    <!-- Примеры как вставлять: -->
+    <!-- <img src="https://i.imgur.com/ваш-линк-1.jpg" alt="мы"> -->
+    <!-- <img src="https://i.imgur.com/ваш-линк-2.jpg" alt="мы"> -->
+    <!-- или локальные файлы: <img src="photo1.jpg"> если лежат рядом с html -->
 
-    <div class="photos">
-      <!-- Замени на свои фото -->
-      <img src="https://via.placeholder.com/220x220/ff80ab/ffffff?text=Наше+фото+1" alt="Мы">
-      <img src="https://via.placeholder.com/220x220/ff80ab/ffffff?text=Наше+фото+2" alt="Мы">
-    </div>
-
-    <div class="buttons">
-      <button id="yes">Да! 💖</button>
-      <button id="no">Нет :(</button>
-    </div>
-
-    <div id="message"></div>
-    <div id="please"></div>
+    <img src="https://media1.tenor.com/m/3Sykma8la9gAAAAC/reze-tongue-out-reze-chainsaw-man-moving-her-head.gif">
   </div>
 
-  <footer>12 февраля 2026 • с любовью от твоего [твоё имя] ♡</footer>
+  <div class="buttons">
+    <button id="yes">Да! :)</button>
+    <button id="no">Нет :(</button>
+  </div>
+
+  <div id="message"></div>
+  <div id="please"></div>
+
+  <footer>с любовью от давида ♡</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
   <script>
-    // Простая конфетти-анимация без внешних библиотек
-    const canvas = document.getElementById('confetti-canvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    window.addEventListener('resize', () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    });
-
-    let particles = [];
-
-    class Particle {
-      constructor() {
-        this.reset();
-      }
-      reset() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height - canvas.height;
-        this.size = Math.random() * 8 + 4;
-        this.speedY = Math.random() * 3 + 2;
-        this.speedX = Math.random() * 4 - 2;
-        this.rotation = Math.random() * 360;
-        this.rotSpeed = Math.random() * 10 - 5;
-        this.color = ['#ff5e92', '#ffffff', '#ffebee', '#ff9ec1', '#ffb6c1'][Math.floor(Math.random()*5)];
-        this.opacity = 1;
-      }
-      update() {
-        this.y += this.speedY;
-        this.x += this.speedX;
-        this.rotation += this.rotSpeed;
-        this.opacity -= 0.005;
-        if (this.opacity <= 0 || this.y > canvas.height) this.reset();
-      }
-      draw() {
-        ctx.save();
-        ctx.globalAlpha = this.opacity;
-        ctx.translate(this.x, this.y);
-        ctx.rotate(this.rotation * Math.PI / 180);
-        ctx.fillStyle = this.color;
-        ctx.fillRect(-this.size/2, -this.size/2, this.size, this.size);
-        ctx.restore();
-      }
-    }
-
-    for (let i = 0; i < 150; i++) {
-      particles.push(new Particle());
-    }
-
-    function animateConfetti() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => {
-        p.update();
-        p.draw();
-      });
-      requestAnimationFrame(animateConfetti);
-    }
-    animateConfetti();
-
-    // Запуск взрыва при "Да"
-    function burstConfetti() {
-      for (let i = 0; i < 100; i++) {
-        const p = new Particle();
-        p.y = canvas.height / 2 - 100;  // старт из центра
-        p.x = canvas.width / 2;
-        p.speedY = Math.random() * -8 - 5;  // вверх
-        p.speedX = Math.random() * 10 - 5;
-        p.opacity = 1;
-        particles.push(p);
-      }
-    }
-
     const yesBtn = document.getElementById('yes');
     const noBtn  = document.getElementById('no');
     const message = document.getElementById('message');
     const please  = document.getElementById('please');
 
+    // Конфетти при нажатии "Да"
     yesBtn.addEventListener('click', () => {
-      message.textContent = "Я тебя очень люблю! 💕💕💕";
+      message.textContent = "я тя люблю!💕";
       message.style.opacity = "1";
       message.style.transform = "scale(1)";
-      document.body.style.animation = "pulse-bg 1.5s infinite alternate";
-      burstConfetti();  // ВЗРЫВ КОНФЕТТИ!
+
+      // запуск конфетти
+      confetti({
+        particleCount: 180,
+        spread: 90,
+        origin: { y: 0.6 },
+        colors: ['#ff5e92', '#ffffff', '#ffebee', '#ff9ec1']
+      });
     });
 
+    // "Нет" → двигаем кнопку + просим
     let noClickCount = 0;
     noBtn.addEventListener('click', () => {
       noClickCount++;
-      please.textContent = "ну пожалуйста :(( " + "🥺".repeat(Math.min(noClickCount, 8));
+      please.textContent = "ну пожалуйста :(( " + "🥺".repeat(Math.min(noClickCount, 6));
       please.style.opacity = "1";
-      noBtn.style.transform = `translate(${Math.random()*100-50}px, ${Math.random()*80-40}px)`;
-      setTimeout(() => { noBtn.style.transform = 'translate(0,0)'; }, 500);
+
+      // лёгкое движение кнопки
+    const dx = Math.random() * 240 - 120;
+    const dy = Math.random() * 160 - 80;
+    const rotate = Math.random() * 40 - 20;           // поворот ±20°
+    noBtn.style.transform = `translate(${dx}px, ${dy}px) rotate(${rotate}deg) scale(1.1)`;
     });
 
     // Падающие сердечки
     function createHeart() {
       const heart = document.createElement('div');
       heart.className = 'heart';
-      heart.innerHTML = ['❤️','💗','💖','💕','💞','🩷'][Math.floor(Math.random()*6)];
+      heart.innerHTML = ['❤️','💗','💖','💕','💞'][Math.floor(Math.random()*5)];
       heart.style.left = Math.random() * 100 + 'vw';
-      heart.style.animationDuration = (Math.random() * 5 + 4) + 's';
-      heart.style.fontSize = (Math.random() * 1.5 + 1.2) + 'rem';
+      heart.style.animationDuration = (Math.random() * 4 + 5) + 's';
+      heart.style.fontSize = (Math.random() * 1.2 + 1.1) + 'rem';
       document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 8000);
+
+      setTimeout(() => heart.remove(), 7000);
     }
 
-    setInterval(createHeart, 400);
-
-    // Пульсация фона
-    const style = document.createElement('style');
-    style.innerHTML = `
-      @keyframes pulse-bg {
-        0% { background: linear-gradient(135deg, #ff9ec1 0%, #ff5e92 100%); }
-        100% { background: linear-gradient(135deg, #ff5e92 0%, #ff9ec1 100%); }
-      }
-    `;
-    document.head.appendChild(style);
+    setInterval(createHeart, 600);
   </script>
 
 </body>
